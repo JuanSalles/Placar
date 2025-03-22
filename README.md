@@ -2,6 +2,10 @@
 
 Este projeto é um overlay desenvolvido para exibir o ranking de enduro durante as transmissões ao vivo das competições do Baja SAE. Ele foi projetado para ser utilizado em ferramentas de transmissão como o OBS Studio, permitindo uma exibição dinâmica e personalizada das informações de classificação.
 
+## Demonstração
+
+![Demonstração do Overlay](repo/Placar_overlay.gif)
+
 ## Funcionalidades
 - Exibição em tempo real do ranking de enduro.
 - Personalização de configurações através do arquivo `config.js`.
