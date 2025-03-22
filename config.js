@@ -1,5 +1,5 @@
 const config = {
-    localUse: true,
+    localUse: false,
     event: "24BR",
     API_URL: "https://resultados.bajasaebrasil.net/overlaydata.php",
     getParamsURL() {
