@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranking Enduro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body class="absolute top-0 right-0 ranking-container text-white">
+    <div class="fade-in">
+        <h1 class="header">Classificação enduro</h1>
+        <table class="w-full border-collapse">
+            <thead>
+                <tr class="bg-gray-700 text-white">
+                    <th class="text-left">Pos</th>
+                    <th class="text-center">Carro</th>
+                    <th class="text-center text-equipe">Equipe/Escola</th>
+                    <th class="text-center">Voltas</th>
+                </tr>
+            </thead>
+            <tbody id="rankingBody" class="divide-y divide-gray-600">
+                <!-- Linhas serão inseridas aqui via JavaScript -->
+            </tbody>
+        </table>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

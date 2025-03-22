@@ -1,0 +1,108 @@
+
+        body {
+            background: #f02dc2;
+            
+            font-family: 'Arial Black', sans-serif;
+            width: 512px;
+        }
+        .ranking-container {
+            backdrop-filter: blur(12px);
+            /* border: 2px solid #0057b7; */
+            border-radius: 12px;
+            /* box-shadow: 0 0 20px rgba(0, 87, 183, 0.7); */
+            
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(90deg, #003f88, #0073e6);
+            color: #fff;
+            text-transform: uppercase;
+            font-weight: bold;
+            padding: 12px;
+            text-align: center;
+            border-radius: 10px 10px 0 0;
+
+        }
+        .table-row:nth-child(odd) {
+            background: linear-gradient(90deg, #002855, #004aad);
+        }
+
+        .row-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: start;
+            padding: 10px;
+        }
+        .table-row:nth-child(even) {
+            background: linear-gradient(90deg, #004aad, #0073e6);
+        }
+        .position {
+            font-weight: bold;
+            color: #ffd700;
+        }
+        .voltas {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffd700;
+        }
+        td {
+            padding: 0px 10px;
+        }
+
+        tr {
+            border: none;
+        }
+
+        th{
+            padding : 10px;
+        }
+
+        .text-equipe {
+            width: 273.3px
+        }
+
+        /* Animação para o cabeçalho */
+    .fade-in {
+        opacity: 0;
+        transform: translateY(-20px);
+        animation: fadeIn 0.5s forwards;
+    }
+
+    /* Animação para as linhas */
+    .slide-in {
+        opacity: 0;
+        transform: translateY(20px);
+        animation: slideIn 0.5s forwards;
+    }
+
+    /* Animação para saída das linhas */
+    .slide-out {
+        opacity: 1;
+        transform: translateY(0);
+        animation: slideOut 0.3s forwards;
+    }
+
+/* Keyframes para a animação de saída */
+@keyframes slideOut {
+    to {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+    /* Keyframes para as animações */
+    @keyframes fadeIn {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes slideIn {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+   
