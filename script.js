@@ -1,7 +1,20 @@
-async function fetchRankingData() {
-    const response = await fetch('rankingData.json');
+import config from './config.js';
+async function fetchRankingData(url) {
+    const response = await fetch(url);
+    // const response = await fetch('rankingData.json');
     return await response.json();
 }
+
+// function dataSanitizer(data) {
+//     const dataSanitized = data.filter(entry => 
+//         entry.hasOwnProperty('pos') && entry.pos !== null &&
+//         entry.hasOwnProperty('carro') && entry.carro !== null &&
+//         entry.hasOwnProperty('equipe') && entry.equipe !== null &&
+//         entry.hasOwnProperty('local') && entry.local !== null &&
+//         entry.hasOwnProperty('voltas') && entry.voltas !== null
+//     );
+//     return dataSanitized;
+// }
 
 function renderRanking(data, startIndex) {
     const rankingBody = document.getElementById("rankingBody");
@@ -52,20 +65,49 @@ function clearRankingWithAnimation(callback) {
     }, rows.length * 100 + 300); // Tempo total da animação
 }
 
+function sanitizeEvento(evento) {
+    return evento.replace(/[^a-zA-Z0-9]/g, "").slice(0, 4).toUpperCase();
+}
+
 async function startRankingLoop() {
-    const data = await fetchRankingData();
-    let startIndex = 0;
+    let url = config.getAPIURL();
+    if (!config.localUse) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const evento = urlParams.get("evento") ? sanitizeEvento(urlParams.get("evento")) : config.event;
+        config.event = evento;
+        url = config.getAPIURL();
+    }
+    try {
+        const data = await fetchRankingData(url);
+        if (data.length === 0) {
+            throw new Error("Nenhum dado retornado");
+        }
+        // const dataSanitized = dataSanitizer(data);
+        // const dataOrdered = dataSanitized.sort((a, b) => a.pos - b.pos);
+        let startIndex = 0;
 
-    // Exibe o primeiro grupo imediatamente
-    renderRanking(data, startIndex);
+        // Exibe o primeiro grupo imediatamente
+        renderRanking(data, startIndex);
 
-    // Inicia o loop para exibir os próximos grupos após 10 segundos
-    setInterval(() => {
-        clearRankingWithAnimation(() => {
-            startIndex = (startIndex + 10) % data.length; // Avança 10 posições, reinicia no final
-            renderRanking(data, startIndex); // Exibe o próximo grupo
-        });
-    }, 10000); // Troca a cada 10 segundos
+        // Inicia o loop para exibir os próximos grupos após 10 segundos
+        const intervalId = setInterval(() => {
+            clearRankingWithAnimation(() => {
+                startIndex = (startIndex + 10);
+                
+                startIndex >= data.length ? startIndex = 0 : startIndex;
+
+                if (startIndex === 0) {
+                    clearInterval(intervalId); // Para o loop atual
+                    startRankingLoop(); // Reexecuta o processo para buscar dados atualizados
+                }else{
+                    renderRanking(data, startIndex);
+                }
+            });
+        }, 10000); // Troca a cada 10 segundos
+    } catch (e) {
+        console.error("Erro ao buscar dados do ranking:", e);
+        document.body.innerHTML = "";
+    }
 }
 
 document.addEventListener("DOMContentLoaded", startRankingLoop);
