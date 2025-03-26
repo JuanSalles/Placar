@@ -7,6 +7,9 @@ const config = {
     },
     getAPIURL() {
         return `${this.API_URL}?${this.getParamsURL()}`;
+    },
+    getTimeUrl() {
+        return `https://resultados.bajasaebrasil.net/overlaydata.php?evt=${this.event}&time`;
     }
 };
 

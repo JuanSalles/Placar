@@ -3,27 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ranking Enduro</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="styles.css" rel="stylesheet">
+    <title>Enduro</title>
+    <link href="./styles/reset.css" rel="stylesheet">
+    <link href="./styles/styles.css" rel="stylesheet">
 </head>
-<body class="absolute top-0 right-0 ranking-container text-white">
-    <div class="fade-in">
-        <h1 class="header">Classificação enduro</h1>
-        <table class="w-full border-collapse">
-            <thead>
-                <tr class="bg-gray-700 text-white">
-                    <th class="text-left">Pos</th>
-                    <th class="text-center">Carro</th>
-                    <th class="text-center text-equipe">Equipe/Escola</th>
-                    <th class="text-center">Voltas</th>
-                </tr>
-            </thead>
-            <tbody id="rankingBody" class="divide-y divide-gray-600">
+<body class="ranking-container">
+    <div class="fade-in ranking">
+        <div class="header">
+            <div class="container_header">
+                <img id="mostraTimer" class="logo_baja" src="./assets/Logo_Branca.png" alt="Logo do Baja Sae">
+                <h1>enduro</h1>
+            </div>
+            <div id="tempoDeProva" class="tempoDeProva">
+                <h1>Tempo de Prova:</h1>
+                <div class="cronometro">
+                  <span id="timer">00:00</span>
+                </div>
+             </div>
+        </div>
+        <table>
+            <tbody id="rankingBody">
                 <!-- Linhas serão inseridas aqui via JavaScript -->
             </tbody>
         </table>
     </div>
-    <script type="module" src="script.js"></script>
+    <script type="module" src="./js/script.js"></script>
 </body>
 </html>

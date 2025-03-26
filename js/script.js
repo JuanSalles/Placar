@@ -1,4 +1,11 @@
 import config from './config.js';
+
+const tempoPorCiclo = 15000; // 15 segundos
+const equipesPorCiclo = 18;
+const timerDisplay = document.getElementById("timer");
+let timerInterval;
+let timerRunning = false;
+const tempoDeProvaDiv = document.getElementById("tempoDeProva");
 async function fetchRankingData(url) {
     const response = await fetch(url);
     // const response = await fetch('rankingData.json');
@@ -15,21 +22,29 @@ async function fetchRankingData(url) {
 //     );
 //     return dataSanitized;
 // }
-
+function getTeamName(team) {
+    return team.split(' - ')[0];
+}
 function renderRanking(data, startIndex) {
     const rankingBody = document.getElementById("rankingBody");
     rankingBody.innerHTML = ""; // Limpa o ranking atual
 
-    const endIndex = Math.min(startIndex + 10, data.length);
+    const endIndex = Math.min(startIndex + equipesPorCiclo, data.length);
     const currentData = data.slice(startIndex, endIndex);
 
     currentData.forEach((entry, index) => {
         const row = document.createElement("tr");
         row.classList.add("table-row", "slide-in");
         row.innerHTML = `
-            <td class="position">${entry.pos}º</td>
-            <td class="text-center">${entry.carro}</td>
-            <td><div class="row-container">${entry.equipe} <span class="text-gray-400 text-xs">${entry.local}</span></div></td>
+            <td class="position">${entry.pos}</td>
+            <td>
+                <div class="text-equipe">
+                    <p class="carro">
+                    ${entry.carro}
+                    </p>   
+                    <p>${getTeamName(entry.equipe)}</p>
+                </div>
+            </td>
             <td class="text-center voltas">${entry.voltas}</td>
         `;
 
@@ -69,7 +84,7 @@ function sanitizeEvento(evento) {
     return evento.replace(/[^a-zA-Z0-9]/g, "").slice(0, 4).toUpperCase();
 }
 
-async function startRankingLoop() {
+async function startRankingLoop() { 
     let url = config.getAPIURL();
     if (!config.localUse) {
         const urlParams = new URLSearchParams(window.location.search);
@@ -92,7 +107,7 @@ async function startRankingLoop() {
         // Inicia o loop para exibir os próximos grupos após 10 segundos
         const intervalId = setInterval(() => {
             clearRankingWithAnimation(() => {
-                startIndex = (startIndex + 10);
+                startIndex = (startIndex + equipesPorCiclo);
                 
                 startIndex >= data.length ? startIndex = 0 : startIndex;
 
@@ -103,11 +118,61 @@ async function startRankingLoop() {
                     renderRanking(data, startIndex);
                 }
             });
-        }, 10000); // Troca a cada 10 segundos
+        }, tempoPorCiclo); // Troca a cada 10 segundos
     } catch (e) {
         console.error("Erro ao buscar dados do ranking:", e);
         document.body.innerHTML = "";
     }
 }
+function formatTime(seconds) {
+    const hours = String(Math.floor(seconds / 3600)).padStart(2, "0");
+    const minutes = String(Math.floor((seconds % 3600) / 60)).padStart(2, "0");
+    
+    return `${hours}:${minutes}`;
+}
+function updateTimerDisplay(elapsedTime) {
+    timerDisplay.textContent = formatTime(elapsedTime);
+}
+async function startTimer() {
+    let url = config.getTimeUrl();
+    if (!config.localUse) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const evento = urlParams.get("evento") ? sanitizeEvento(urlParams.get("evento")) : config.event;
+        config.event = evento;
+        url = config.getTimeUrl();
+    }
+    try {
+        const response = await fetch(url);
+        const serverTime = await response.json(); // Tempo retornado pela API
+        const startTime = parseInt(serverTime, 10);
+
+        if (isNaN(startTime)) {
+            console.error("Erro: Tempo inválido retornado pela API.");
+            return;
+        }
+
+        timerInterval = setInterval(() => {
+            const currentTime = Math.floor(Date.now() / 1000); // Tempo atual em segundos
+            const elapsedTime = currentTime - startTime; // Diferença de tempo
+            updateTimerDisplay(elapsedTime);
+        }, 1000); // Atualiza a cada segundo
+    } catch (error) {
+        console.error("Erro ao buscar o tempo da API:", error);
+    }
+}
 
 document.addEventListener("DOMContentLoaded", startRankingLoop);
+document.getElementById("mostraTimer").addEventListener("click", () => {
+    
+    if(!timerRunning){
+        timerRunning = true;
+        tempoDeProvaDiv.classList.remove("slide-out-with-size");
+        tempoDeProvaDiv.classList.add("slide-in-with-size");
+        startTimer();
+    }else{
+        timerRunning = false;
+        tempoDeProvaDiv.classList.remove("slide-in-with-size");
+        tempoDeProvaDiv.classList.add("slide-out-with-size");
+        clearInterval(timerInterval);
+    }
+});

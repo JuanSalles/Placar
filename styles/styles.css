@@ -1,0 +1,205 @@
+
+@font-face {
+    font-family: 'Urzeit'; 
+    src: url('../fonts/Urzeit-Personal_Use.ttf') format('truetype');
+    font-weight: normal; 
+    font-style: normal; 
+}
+
+:root {
+    --font-color: #c7c7c7;
+    --header-color: #e8e8e8;
+    --font-family: 'Urzeit', sans-serif;
+    --background-color: #141930c6;
+    --color-position: #f1c40f;
+    --color-laps: #4ef154;
+    --color-car: #3db5f5;
+    --color-car-text: #f2f2f2;
+}
+*{
+    box-sizing: border-box;
+}
+
+body{
+    width: 100vw;
+    height: 100vh;
+    font-family: var(--font-family);
+    font-weight: normal;
+    overflow: hidden;
+    color: var(--font-color);
+}
+
+.ranking{
+    position: fixed;
+    right: 0;
+    top: 0;
+    margin: 30px;
+    width: 370px;
+}
+.header {
+    color: var(--header-color);
+    text-transform: uppercase;
+    font-weight: normal;
+    padding: 12px 12px 20px;
+    text-align: center;
+    background-color: var(--background-color);
+    border-radius: 10px 10px 0 0;
+}
+.container_header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 10px;
+}
+
+.container_header h1{
+    font-size: 4rem;
+}
+
+.tempoDeProva{
+    display: flex;
+    opacity: 0;
+    height: 0;
+    font-size: 1.8rem;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.logo_baja{
+    width: 100px;
+}
+.position {
+    width: 15%;
+    font-size: 2rem;
+    text-align: center;
+    color: var(--color-position);
+}
+
+.carro{
+    display: flex;
+    background-color: var(--color-car);
+    color: var(--color-car-text);
+    align-items: center;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+}
+.voltas {
+    font-size: 1.5rem;
+    width: 15%;
+    color: var(--color-laps)
+    /* color: var(--highlight-color); */
+}
+
+table{
+    border-spacing: 0 3px;
+    border-collapse: separate;
+    width: 100%;
+}
+
+tbody td, tbody th {
+    vertical-align: middle;
+}
+tbody{
+    vertical-align: middle;
+}
+td {
+    padding: 0px 5px;
+}
+
+tr {
+    border: none; 
+    background-color: var(--background-color);
+    height: 40px;
+}
+
+.text-equipe {
+    font-size: 1.5rem;
+    display: flex;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Animação para o cabeçalho */
+.fade-in {
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: fadeIn 0.5s forwards;
+}
+
+/* Animação para as linhas */
+.slide-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: slideIn 0.5s forwards;
+}
+
+/* Animação para saída das linhas */
+.slide-out {
+    opacity: 1;
+    transform: translateY(0);
+    animation: slideOut 0.3s forwards;
+}
+
+.tempoDeProva.slide-in-with-size {
+    opacity: 0;
+    height: 0;
+    transform: translateY(-10px);
+    animation: slideInWithSize 0.7s forwards;
+}
+
+.tempoDeProva.slide-out-with-size {
+    opacity: 1;
+    height: fit-content;
+    transform: translateY(0);
+    animation: slideOutWithSize 0.7s forwards;
+}
+
+@keyframes slideInWithSize {
+    to {
+        opacity: 1;
+        height: fit-content;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideOutWithSize {
+    to {
+        opacity: 0;
+        height: 0;
+        transform: translateY(-10px);
+    }
+}
+@keyframes slideInWithSize {
+    to {
+        opacity: 1;
+        height: fit-content;
+        transform: translateY(0);
+    }
+}
+
+/* Keyframes para a animação de saída */
+@keyframes slideOut {
+    to {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+/* Keyframes para as animações */
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
